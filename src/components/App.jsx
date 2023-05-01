@@ -22,13 +22,15 @@ class App extends Component {
     event.preventDefault();
     const name = event.target[0].value;
     const number = event.target[1].value;
-  
-    this.setState(prevState => {
-      return {
-        contacts: [...prevState.contacts, { name, number, id: nanoid() }],
-      };
-     
-    });
+    if(this.state.contacts.some(contact => contact.name.toLowerCase() === name.toLowerCase())){
+      return alert(`${name} is already in contacts`);
+    }else{
+      this.setState(prevState => {
+        return {
+          contacts: [...prevState.contacts, { name, number, id: nanoid() }],
+        };
+      });
+    }
   };
   
 
