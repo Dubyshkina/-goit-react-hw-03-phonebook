@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import { nanoid } from 'nanoid';
 import s from 'components/App.module.css';
 
 import Form from './Form/Form';
@@ -18,16 +17,13 @@ class App extends Component {
   componentDidUpdate(_, prevState) {
  if(this.state.contacts !== prevState.contacts) localStorage.setItem('contacts', JSON.stringify(this.state.contacts))
   }
-  handleAddContact = event => {
-    event.preventDefault();
-    const name = event.target[0].value;
-    const number = event.target[1].value;
-    if(this.state.contacts.some(contact => contact.name.toLowerCase() === name.toLowerCase())){
-      return alert(`${name} is already in contacts`);
+  addContact = contact => {
+    if(this.state.contacts.some(cont => cont.name.toLowerCase() === contact.name.toLowerCase())){
+      return alert(`${contact.name} is already in contacts`);
     }else{
       this.setState(prevState => {
         return {
-          contacts: [...prevState.contacts, { name, number, id: nanoid() }],
+          contacts: [...prevState.contacts,  contact],
         };
       });
     }
@@ -59,7 +55,7 @@ class App extends Component {
         <div className={s.section}>
         <h2>Phonebook</h2>
         <Form
-          handleAddContact={this.handleAddContact}
+          addContact={this.addContact}
         />
         </div>
         <div className={s.section}>
